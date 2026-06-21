@@ -40,6 +40,7 @@ const FOOTER_LINKS = {
   about: [
     { href: "/about", label: "عن المؤسسة" },
     { href: "/about#vision", label: "الرؤية والأهداف" },
+    { href: "/transparency", label: "الشفافية والتقارير" },
     { href: "/news", label: "أخبارنا" },
   ],
   programs: [

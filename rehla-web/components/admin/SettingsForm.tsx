@@ -71,6 +71,20 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
         </SubGroup>
       </Section>
 
+      {/* الشفافية */}
+      <Section title="صفحة الشفافية">
+        <Field name="transparency_intro" label="مقدمة الشفافية" settings={settings} textarea />
+        <SubGroup label="توزيع التبرعات (النسب يجب أن يكون مجموعها 100)">
+          <Field name="allocation_programs_label" label="البند الأول — الاسم" settings={settings} />
+          <Field name="allocation_programs_percent" label="البند الأول — النسبة %" settings={settings} dir="ltr" />
+          <Field name="allocation_operations_label" label="البند الثاني — الاسم" settings={settings} />
+          <Field name="allocation_operations_percent" label="البند الثاني — النسبة %" settings={settings} dir="ltr" />
+          <Field name="allocation_admin_label" label="البند الثالث — الاسم" settings={settings} />
+          <Field name="allocation_admin_percent" label="البند الثالث — النسبة %" settings={settings} dir="ltr" />
+        </SubGroup>
+        <Field name="reports_note" label="نص التقارير" settings={settings} textarea />
+      </Section>
+
       {/* التواصل */}
       <Section title="بيانات التواصل">
         <Field name="contact_phone" label="رقم الهاتف" settings={settings} dir="ltr" />

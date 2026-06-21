@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: "/", label: "الرئيسية" },
   { href: "/about", label: "عن المؤسسة" },
   { href: "/programs", label: "محاور العمل" },
+  { href: "/transparency", label: "الشفافية" },
   { href: "/news", label: "أخبار" },
   { href: "/contact", label: "تواصل معنا" },
 ];

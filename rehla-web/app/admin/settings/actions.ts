@@ -43,6 +43,15 @@ const ALLOWED_KEYS = [
   "trust_3_text",
   // عنوان الحالات المميزة
   "featured_title",
+  // الشفافية
+  "transparency_intro",
+  "allocation_programs_percent",
+  "allocation_programs_label",
+  "allocation_operations_percent",
+  "allocation_operations_label",
+  "allocation_admin_percent",
+  "allocation_admin_label",
+  "reports_note",
   // التواصل
   "contact_phone",
   "contact_email",
