@@ -35,6 +35,28 @@ export async function saveItem(formData: FormData) {
   const unitPriceRaw = formData.get("unit_price") as string;
   const goalAmountRaw = formData.get("goal_amount") as string;
 
+  // معالجة المبالغ المقترحة (تأتي كنص JSON من النموذج)
+  let suggestedAmounts: { amount: number; label: string }[] = [];
+  const suggestedRaw = formData.get("suggested_amounts") as string;
+  if (suggestedRaw) {
+    try {
+      const parsed = JSON.parse(suggestedRaw);
+      if (Array.isArray(parsed)) {
+        suggestedAmounts = parsed
+          .filter(
+            (s) =>
+              s && typeof s.amount === "number" && s.amount > 0
+          )
+          .map((s) => ({
+            amount: s.amount,
+            label: typeof s.label === "string" ? s.label : "",
+          }));
+      }
+    } catch {
+      suggestedAmounts = [];
+    }
+  }
+
   const payload = {
     category_id: categoryId,
     title_ar: titleAr,
@@ -46,6 +68,8 @@ export async function saveItem(formData: FormData) {
     goal_amount:
       kind === "funded_case" && goalAmountRaw ? parseFloat(goalAmountRaw) : null,
     cover_image_url: (formData.get("cover_image_url") as string)?.trim() || null,
+    suggested_amounts: suggestedAmounts,
+    allow_recurring: formData.get("allow_recurring") === "on",
     is_featured: formData.get("is_featured") === "on",
     is_urgent: formData.get("is_urgent") === "on",
   };

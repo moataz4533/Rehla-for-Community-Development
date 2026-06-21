@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Plus, X } from "lucide-react";
 import { saveItem, deleteItem } from "@/app/admin/cases/actions";
 import { ImageUploader } from "@/components/admin/ImageUploader";
-import type { Category, DonationItem } from "@/lib/types/database";
+import type { Category, DonationItem, SuggestedAmount } from "@/lib/types/database";
 
 export function CaseForm({
   categories,
@@ -14,6 +15,29 @@ export function CaseForm({
   item?: DonationItem;
 }) {
   const [kind, setKind] = useState<string>(item?.kind ?? "fixed_item");
+  const [suggestedAmounts, setSuggestedAmounts] = useState<SuggestedAmount[]>(
+    item?.suggested_amounts ?? []
+  );
+
+  function addSuggested() {
+    setSuggestedAmounts((prev) => [...prev, { amount: 0, label: "" }]);
+  }
+  function updateSuggested(
+    index: number,
+    field: "amount" | "label",
+    value: string
+  ) {
+    setSuggestedAmounts((prev) =>
+      prev.map((s, i) =>
+        i === index
+          ? { ...s, [field]: field === "amount" ? parseFloat(value) || 0 : value }
+          : s
+      )
+    );
+  }
+  function removeSuggested(index: number) {
+    setSuggestedAmounts((prev) => prev.filter((_, i) => i !== index));
+  }
 
   return (
     <div className="mx-auto max-w-2xl p-8">
@@ -109,6 +133,82 @@ export function CaseForm({
             />
           </Field>
         )}
+
+        {/* المبالغ المقترحة بسياق (للحالات بهدف مالي) */}
+        {kind === "funded_case" && (
+          <div className="rounded-xl bg-brand-surface p-4">
+            <div className="mb-1 flex items-center justify-between">
+              <label className="text-sm font-medium text-brand-primary">
+                مبالغ مقترحة بسياق
+              </label>
+              <button
+                type="button"
+                onClick={addSuggested}
+                className="flex items-center gap-1 text-sm font-bold text-brand-accent"
+              >
+                <Plus size={15} />
+                إضافة مبلغ
+              </button>
+            </div>
+            <p className="mb-3 text-xs text-brand-text-secondary">
+              تساعد المتبرع على فهم أثر كل مبلغ. مثال: ٢٥٠ جنيه = شهر أدوية.
+            </p>
+
+            {suggestedAmounts.length === 0 ? (
+              <p className="text-xs text-brand-text-secondary">
+                لا توجد مبالغ مقترحة. اضغط &quot;إضافة مبلغ&quot;.
+              </p>
+            ) : (
+              <div className="space-y-2">
+                {suggestedAmounts.map((s, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      min={1}
+                      value={s.amount || ""}
+                      onChange={(e) => updateSuggested(i, "amount", e.target.value)}
+                      placeholder="المبلغ"
+                      dir="ltr"
+                      className="w-24 rounded-lg border border-brand-border px-3 py-2 text-sm"
+                    />
+                    <input
+                      type="text"
+                      value={s.label}
+                      onChange={(e) => updateSuggested(i, "label", e.target.value)}
+                      placeholder="السياق (مثال: شهر أدوية)"
+                      className="flex-1 rounded-lg border border-brand-border px-3 py-2 text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeSuggested(i)}
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-brand-danger hover:bg-red-50"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* حقل مخفي يحمل المبالغ كـ JSON */}
+            <input
+              type="hidden"
+              name="suggested_amounts"
+              value={JSON.stringify(suggestedAmounts)}
+            />
+          </div>
+        )}
+
+        {/* خيار التبرع المتكرر */}
+        <label className="flex items-center gap-2 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            name="allow_recurring"
+            defaultChecked={item?.allow_recurring ?? false}
+            className="h-4 w-4 accent-[var(--color-primary)]"
+          />
+          السماح بالتبرع الشهري المتكرر لهذه الحالة
+        </label>
 
         {/* الوصف */}
         <Field label="الوصف">

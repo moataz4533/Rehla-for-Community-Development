@@ -59,11 +59,18 @@ export interface DonationItem {
   deadline: string | null;
   cover_image_url: string | null;
   gallery_image_urls: string[] | null;
+  suggested_amounts: SuggestedAmount[] | null;
+  allow_recurring: boolean;
   is_featured: boolean;
   is_urgent: boolean;
   display_order: number;
   created_at: string;
   updated_at: string;
+}
+
+export interface SuggestedAmount {
+  amount: number;
+  label: string;
 }
 
 export interface Donor {
@@ -88,6 +95,8 @@ export interface Donation {
   gateway_order_id: string | null;
   donor_message: string | null;
   is_anonymous_display: boolean;
+  is_recurring: boolean;
+  recurrence: string;
   created_at: string;
   paid_at: string | null;
 }

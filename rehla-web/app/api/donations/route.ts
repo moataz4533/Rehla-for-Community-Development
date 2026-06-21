@@ -9,6 +9,7 @@ interface DonationRequestBody {
   contact: string; // إيميل أو رقم تليفون
   isAnonymous: boolean;
   donorMessage?: string;
+  recurrence?: string; // 'one_time' أو 'monthly'
 }
 
 function isEmail(value: string) {
@@ -23,8 +24,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "بيانات الطلب غير صحيحة" }, { status: 400 });
   }
 
-  const { donationItemId, amount, quantity, fullName, contact, isAnonymous, donorMessage } =
+  const { donationItemId, amount, quantity, fullName, contact, isAnonymous, donorMessage, recurrence } =
     body;
+
+  // التحقق من قيمة التكرار (قائمة بيضaء)
+  const safeRecurrence = recurrence === "monthly" ? "monthly" : "one_time";
 
   // ------------------------------------------------------------
   // 1) التحقق الأساسي من صحة البيانات
@@ -121,6 +125,8 @@ export async function POST(req: NextRequest) {
       status: "pending",
       donor_message: donorMessage || null,
       is_anonymous_display: isAnonymous,
+      is_recurring: safeRecurrence === "monthly",
+      recurrence: safeRecurrence,
     })
     .select("id")
     .single();

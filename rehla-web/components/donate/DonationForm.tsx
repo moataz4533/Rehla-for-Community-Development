@@ -12,6 +12,9 @@ export function DonationForm({ item }: { item: DonationItem }) {
 
   const [quantity, setQuantity] = useState(1);
   const [customAmount, setCustomAmount] = useState<string>("");
+  const [recurrence, setRecurrence] = useState<"one_time" | "monthly">(
+    "one_time"
+  );
   const [fullName, setFullName] = useState("");
   const [contact, setContact] = useState(""); // إيميل أو تليفون
   const [isAnonymous, setIsAnonymous] = useState(false);
@@ -51,6 +54,7 @@ export function DonationForm({ item }: { item: DonationItem }) {
           contact: contact.trim(),
           isAnonymous,
           donorMessage: donorMessage.trim(),
+          recurrence: item.allow_recurring ? recurrence : "one_time",
         }),
       });
 
@@ -84,13 +88,44 @@ export function DonationForm({ item }: { item: DonationItem }) {
           <label className="mb-2 block text-sm font-bold text-brand-primary">
             مبلغ التبرع (جنيه)
           </label>
+
+          {/* مبالغ مقترحة بسياق، إن وُجدت */}
+          {item.suggested_amounts && item.suggested_amounts.length > 0 && (
+            <div className="mb-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              {item.suggested_amounts.map((s) => {
+                const isActive = parseFloat(customAmount) === s.amount;
+                return (
+                  <button
+                    key={s.amount}
+                    type="button"
+                    onClick={() => setCustomAmount(String(s.amount))}
+                    className={`rounded-xl border px-4 py-3 text-right transition-colors ${
+                      isActive
+                        ? "border-brand-primary bg-brand-primary/5"
+                        : "border-brand-border hover:border-brand-primary/40"
+                    }`}
+                  >
+                    <span className="block font-bold text-brand-primary">
+                      {s.amount.toLocaleString("ar-EG")} جنيه
+                    </span>
+                    {s.label && (
+                      <span className="mt-0.5 block text-xs text-brand-text-secondary">
+                        {s.label}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           <input
             type="number"
             inputMode="numeric"
             min={1}
             value={customAmount}
             onChange={(e) => setCustomAmount(e.target.value)}
-            placeholder="أدخل المبلغ"
+            placeholder="أو أدخل مبلغًا آخر"
             className="w-full rounded-xl border border-brand-border px-4 py-3 text-lg font-bold text-brand-primary focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary/20"
           />
         </div>
@@ -130,6 +165,44 @@ export function DonationForm({ item }: { item: DonationItem }) {
               {computedAmount.toLocaleString("ar-EG")} جنيه
             </span>
           </p>
+        </div>
+      )}
+
+      {/* خيار التكرار (يظهر فقط إذا كان العنصر يسمح بالتبرع المتكرر) */}
+      {item.allow_recurring && (
+        <div className="border-t border-brand-border pt-5">
+          <label className="mb-2 block text-sm font-bold text-brand-primary">
+            نوع التبرع
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setRecurrence("one_time")}
+              className={`rounded-xl border px-4 py-3 text-center text-sm font-bold transition-colors ${
+                recurrence === "one_time"
+                  ? "border-brand-primary bg-brand-primary/5 text-brand-primary"
+                  : "border-brand-border text-brand-text-secondary hover:border-brand-primary/40"
+              }`}
+            >
+              مرة واحدة
+            </button>
+            <button
+              type="button"
+              onClick={() => setRecurrence("monthly")}
+              className={`rounded-xl border px-4 py-3 text-center text-sm font-bold transition-colors ${
+                recurrence === "monthly"
+                  ? "border-brand-primary bg-brand-primary/5 text-brand-primary"
+                  : "border-brand-border text-brand-text-secondary hover:border-brand-primary/40"
+              }`}
+            >
+              شهري متكرر
+            </button>
+          </div>
+          {recurrence === "monthly" && (
+            <p className="mt-2 text-xs text-brand-text-secondary">
+              سيتجدد تبرعك شهريًا تلقائيًا، ويمكنك إيقافه في أي وقت.
+            </p>
+          )}
         </div>
       )}
 
