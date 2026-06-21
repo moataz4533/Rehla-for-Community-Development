@@ -5,6 +5,7 @@ import {
   getSubcategoriesByCategory,
 } from "@/lib/data/queries";
 import { DonationItemCard } from "@/components/home/DonationItemCard";
+export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
 
 export async function generateMetadata({
   params,

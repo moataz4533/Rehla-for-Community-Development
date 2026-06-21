@@ -1,8 +1,9 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { getDonationItemBySlug } from "@/lib/data/queries";
 import { DonationForm } from "@/components/donate/DonationForm";
+export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat("ar-EG", { maximumFractionDigits: 0 }).format(
@@ -58,10 +59,9 @@ export default async function DonationItemPage({
         <div className="lg:col-span-3">
           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-brand-surface">
             {item.cover_image_url ? (
-              <Image
+              <SafeImage
                 src={item.cover_image_url}
                 alt={item.title_ar}
-                fill
                 className="object-cover"
                 priority
               />

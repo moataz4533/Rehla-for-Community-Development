@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import type { DonationItem } from "@/lib/types/database";
 
 function formatCurrency(amount: number) {
@@ -22,11 +22,10 @@ export function DonationItemCard({ item }: { item: DonationItem }) {
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-brand-surface">
         {item.cover_image_url ? (
-          <Image
+          <SafeImage
             src={item.cover_image_url}
             alt={item.title_ar}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-sm text-brand-text-secondary">

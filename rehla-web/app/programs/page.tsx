@@ -1,5 +1,6 @@
 import { CategoriesGrid } from "@/components/home/CategoriesGrid";
 import { getActiveCategories } from "@/lib/data/queries";
+export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
 
 export const metadata = {
   title: "محاور العمل",

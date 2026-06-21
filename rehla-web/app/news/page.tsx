@@ -1,6 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
+import { SafeImage } from "@/components/ui/SafeImage";
 import { getPublishedNews } from "@/lib/data/queries";
+export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
 
 export const metadata = {
   title: "أخبار المؤسسة",
@@ -27,10 +28,9 @@ export default async function NewsPage() {
             >
               <div className="relative aspect-[16/10] w-full bg-brand-surface">
                 {post.cover_image_url && (
-                  <Image
+                  <SafeImage
                     src={post.cover_image_url}
                     alt={post.title_ar}
-                    fill
                     className="object-cover"
                   />
                 )}

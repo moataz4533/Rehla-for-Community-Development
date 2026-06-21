@@ -6,6 +6,7 @@ import {
   getActiveCategories,
   getFeaturedDonationItems,
 } from "@/lib/data/queries";
+export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
 
 export default async function HomePage() {
   const [categories, featuredItems] = await Promise.all([

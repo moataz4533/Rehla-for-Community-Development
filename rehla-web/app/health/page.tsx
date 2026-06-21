@@ -59,6 +59,47 @@ export default async function HealthPage() {
     connectionDetail = err instanceof Error ? err.message : String(err);
   }
 
+  // 3) اختبار نفس استعلامات الصفحة الرئيسية بالضبط
+  const homeTests: { label: string; status: string; detail: string }[] = [];
+
+  try {
+    const { getActiveCategories, getFeaturedDonationItems } = await import(
+      "@/lib/data/queries"
+    );
+    const cats = await getActiveCategories();
+    homeTests.push({
+      label: "getActiveCategories()",
+      status: "✓ نجح",
+      detail: `رجّع ${cats.length} محور`,
+    });
+
+    const featured = await getFeaturedDonationItems();
+    homeTests.push({
+      label: "getFeaturedDonationItems()",
+      status: "✓ نجح",
+      detail: `رجّع ${featured.length} عنصر مميز`,
+    });
+
+    // فحص الصور: هل أي عنصر له cover_image_url من نطاق غير متوقع؟
+    const imageUrls = featured
+      .map((f) => f.cover_image_url)
+      .filter(Boolean) as string[];
+    homeTests.push({
+      label: "صور العناصر المميزة",
+      status: imageUrls.length > 0 ? "ℹ توجد صور" : "ℹ لا توجد صور",
+      detail:
+        imageUrls.length > 0
+          ? imageUrls.map((u) => u.slice(0, 50)).join(" | ")
+          : "كل العناصر بدون صور (سيظهر 'صورة قريبًا')",
+    });
+  } catch (err) {
+    homeTests.push({
+      label: "استعلامات الصفحة الرئيسية",
+      status: "✗ خطأ",
+      detail: err instanceof Error ? `${err.message}\n${err.stack ?? ""}` : String(err),
+    });
+  }
+
   return (
     <div style={{ maxWidth: 720, margin: "40px auto", padding: 24, fontFamily: "sans-serif" }}>
       <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 24 }}>
@@ -99,6 +140,36 @@ export default async function HealthPage() {
           {connectionDetail}
         </div>
       </div>
+
+      <h2 style={{ fontSize: 18, fontWeight: 600, marginTop: 24, marginBottom: 12 }}>
+        اختبار استعلامات الصفحة الرئيسية
+      </h2>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {homeTests.map((t, i) => (
+          <li
+            key={i}
+            style={{
+              padding: 12,
+              marginBottom: 8,
+              borderRadius: 8,
+              background: t.status.startsWith("✗") ? "#ffebee" : "#f5f5f5",
+            }}
+          >
+            <strong>{t.label}</strong>: {t.status}
+            <pre
+              style={{
+                fontSize: 12,
+                color: "#444",
+                marginTop: 6,
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+              }}
+            >
+              {t.detail}
+            </pre>
+          </li>
+        ))}
+      </ul>
 
       <p style={{ fontSize: 13, color: "#999", marginTop: 32 }}>
         هذه صفحة تشخيص مؤقتة. احذف مجلد <code>app/health</code> بعد حل المشكلة.
