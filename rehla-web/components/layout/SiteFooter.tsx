@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Phone, Mail } from "lucide-react";
+import { getSiteSettings } from "@/lib/data/settings";
 
 function FacebookIcon() {
   return (
@@ -49,13 +50,21 @@ const FOOTER_LINKS = {
     { href: "/programs/care-homes", label: "دور الرعاية" },
     { href: "/programs/charity-funds", label: "صناديق الخير" },
   ],
-  support: [
-    { href: "/contact", label: "تواصل معنا" },
-    { href: "/donate", label: "تبرع الآن" },
-  ],
 };
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const settings = await getSiteSettings();
+
+  const socials = [
+    { url: settings.social_facebook, label: "فيسبوك", Icon: FacebookIcon },
+    { url: settings.social_instagram, label: "إنستجرام", Icon: InstagramIcon },
+    { url: settings.social_youtube, label: "يوتيوب", Icon: YoutubeIcon },
+    { url: settings.social_linkedin, label: "لينكدإن", Icon: LinkedinIcon },
+  ].filter((s) => s.url && s.url.trim().length > 0);
+
+  const phone = settings.contact_phone?.trim();
+  const email = settings.contact_email?.trim();
+
   return (
     <footer
       className="mt-20 text-white"
@@ -70,26 +79,18 @@ export function SiteFooter() {
               مؤسسة غير ربحية تعمل على بناء حياة كريمة عبر التمكين الاقتصادي،
               التعليم، الصحة، والتدريب، ودعم دور الرعاية.
             </p>
-            <div className="mt-4 flex gap-3">
-              <SocialIcon href="#" label="فيسبوك">
-                <FacebookIcon />
-              </SocialIcon>
-              <SocialIcon href="#" label="إنستجرام">
-                <InstagramIcon />
-              </SocialIcon>
-              <SocialIcon href="#" label="يوتيوب">
-                <YoutubeIcon />
-              </SocialIcon>
-              <SocialIcon href="#" label="لينكدإن">
-                <LinkedinIcon />
-              </SocialIcon>
-            </div>
+            {socials.length > 0 && (
+              <div className="mt-4 flex gap-3">
+                {socials.map((s) => (
+                  <SocialIcon key={s.label} href={s.url} label={s.label}>
+                    <s.Icon />
+                  </SocialIcon>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* عن المؤسسة - روابط */}
           <FooterColumn title="عن المؤسسة" links={FOOTER_LINKS.about} />
-
-          {/* محاور العمل */}
           <FooterColumn title="محاور العمل" links={FOOTER_LINKS.programs} />
 
           {/* التواصل */}
@@ -98,11 +99,11 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-3 text-sm text-white/70">
               <li className="flex items-center gap-2">
                 <Phone size={16} className="text-brand-accent" />
-                <span>سيُستكمل رقم التواصل</span>
+                <span dir="ltr">{phone || "سيُستكمل رقم التواصل"}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-brand-accent" />
-                <span>سيُستكمل البريد الإلكتروني</span>
+                <span dir="ltr">{email || "سيُستكمل البريد الإلكتروني"}</span>
               </li>
             </ul>
             <Link
@@ -116,8 +117,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/50 sm:flex-row">
           <p>
-            مؤسسة رحلة للتنمية المجتمعية — منظمة غير هادفة للربح، سيُستكمل رقم
-            القيد الرسمي بعد توفره.
+            مؤسسة رحلة للتنمية المجتمعية — منظمة غير هادفة للربح.
           </p>
           <p>© {new Date().getFullYear()} جميع الحقوق محفوظة</p>
         </div>
@@ -162,12 +162,14 @@ function SocialIcon({
   children: React.ReactNode;
 }) {
   return (
-    <Link
+    <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       aria-label={label}
       className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-brand-accent"
     >
       {children}
-    </Link>
+    </a>
   );
 }

@@ -5,17 +5,21 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   HeartHandshake,
+  Layers,
   Newspaper,
   Wallet,
+  Settings,
   LogOut,
 } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
 const NAV = [
   { href: "/admin", label: "الرئيسية", icon: LayoutDashboard, exact: true },
+  { href: "/admin/programs", label: "المحاور", icon: Layers },
   { href: "/admin/cases", label: "الحالات وفرص التبرع", icon: HeartHandshake },
   { href: "/admin/news", label: "الأخبار", icon: Newspaper },
   { href: "/admin/donations", label: "التبرعات", icon: Wallet },
+  { href: "/admin/settings", label: "إعدادات الموقع", icon: Settings },
 ];
 
 export function AdminSidebar({ adminName }: { adminName: string }) {

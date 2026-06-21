@@ -1,13 +1,26 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import type { SiteSettings } from "@/lib/data/settings";
+import { settingOr } from "@/lib/data/settings";
 
-export function HomeHero() {
+export function HomeHero({ settings }: { settings: SiteSettings }) {
+  const line1 = settingOr(settings, "hero_title_line1", "نأخذ بيد الإنسان");
+  const line2 = settingOr(
+    settings,
+    "hero_title_line2",
+    "من الاحتياج إلى القدرة"
+  );
+  const subtitle = settingOr(
+    settings,
+    "hero_subtitle",
+    "«رحلة» لا تكتفي بالعطاء اللحظي. نعمل عبر ستة محاور تنموية متكاملة — من التمكين الاقتصادي إلى الرعاية — لنرافق كل إنسان في رحلته نحو الاستقلال وحياة كريمة يصنعها بنفسه."
+  );
+
   return (
     <section
       className="relative overflow-hidden"
       style={{ backgroundColor: "var(--color-primary)" }}
     >
-      {/* خط الرحلة - عنصر بصري توقيعي خفيف في الخلفية */}
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 h-32 w-full opacity-20"
         viewBox="0 0 1200 120"
@@ -25,16 +38,12 @@ export function HomeHero() {
       <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="max-w-2xl">
           <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            نأخذ بيد الإنسان
+            {line1}
             <br />
-            <span className="text-brand-accent-light">
-              من الاحتياج إلى القدرة
-            </span>
+            <span className="text-brand-accent-light">{line2}</span>
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-white/80">
-            «رحلة» لا تكتفي بالعطاء اللحظي. نعمل عبر ستة محاور تنموية متكاملة —
-            من التمكين الاقتصادي إلى الرعاية — لنرافق كل إنسان في رحلته نحو
-            الاستقلال وحياة كريمة يصنعها بنفسه.
+            {subtitle}
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link

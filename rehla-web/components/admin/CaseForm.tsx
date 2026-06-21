@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { saveItem, deleteItem } from "@/app/admin/cases/actions";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { Category, DonationItem } from "@/lib/types/database";
 
 export function CaseForm({
@@ -120,20 +121,13 @@ export function CaseForm({
           />
         </Field>
 
-        {/* رابط الصورة */}
-        <Field label="رابط صورة الغلاف">
-          <input
-            name="cover_image_url"
-            defaultValue={item?.cover_image_url ?? ""}
-            className="form-input"
-            dir="ltr"
-            placeholder="https://..."
-          />
-          <p className="mt-1 text-xs text-brand-text-secondary">
-            ارفع الصورة على Supabase Storage والصق الرابط هنا (سنضيف رفعًا
-            مباشرًا لاحقًا).
-          </p>
-        </Field>
+        {/* صورة الغلاف */}
+        <ImageUploader
+          name="cover_image_url"
+          defaultUrl={item?.cover_image_url}
+          folder="cases"
+          label="صورة الغلاف"
+        />
 
         {/* الحالة */}
         <Field label="حالة النشر">

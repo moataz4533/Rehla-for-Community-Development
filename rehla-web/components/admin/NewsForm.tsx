@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { saveNews, deleteNews } from "@/app/admin/news/actions";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 import type { NewsPost } from "@/lib/types/database";
 
 export function NewsForm({ post }: { post?: NewsPost }) {
@@ -60,18 +61,12 @@ export function NewsForm({ post }: { post?: NewsPost }) {
           />
         </div>
 
-        <div>
-          <label className="mb-1.5 block text-sm font-medium text-brand-primary">
-            رابط صورة الغلاف
-          </label>
-          <input
-            name="cover_image_url"
-            defaultValue={post?.cover_image_url ?? ""}
-            className="news-input"
-            dir="ltr"
-            placeholder="https://..."
-          />
-        </div>
+        <ImageUploader
+          name="cover_image_url"
+          defaultUrl={post?.cover_image_url}
+          folder="news"
+          label="صورة الغلاف"
+        />
 
         <label className="flex items-center gap-2 text-sm text-gray-700">
           <input

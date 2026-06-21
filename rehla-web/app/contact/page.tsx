@@ -1,11 +1,19 @@
 import { Phone, Mail, MapPin } from "lucide-react";
+import { getSiteSettings, settingOr } from "@/lib/data/settings";
 
 export const metadata = {
   title: "تواصل معنا",
   description: "تواصل مع مؤسسة رحلة للتنمية المجتمعية لأي استفسار أو شراكة.",
 };
 
-export default function ContactPage() {
+export const revalidate = 60;
+
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const phone = settingOr(settings, "contact_phone", "سيُستكمل قريبًا");
+  const email = settingOr(settings, "contact_email", "سيُستكمل قريبًا");
+  const address = settingOr(settings, "contact_address", "سيُستكمل قريبًا");
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 lg:px-8">
       <div className="mb-10 text-center">
@@ -18,36 +26,22 @@ export default function ContactPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-        {/* معلومات التواصل */}
         <div className="space-y-5">
-          <ContactRow
-            icon={<Phone size={20} />}
-            label="رقم التواصل"
-            value="سيُستكمل عند توفره"
-          />
-          <ContactRow
-            icon={<Mail size={20} />}
-            label="البريد الإلكتروني"
-            value="سيُستكمل عند توفره"
-          />
-          <ContactRow
-            icon={<MapPin size={20} />}
-            label="العنوان"
-            value="سيُستكمل عند توفره"
-          />
+          <ContactRow icon={<Phone size={20} />} label="رقم التواصل" value={phone} />
+          <ContactRow icon={<Mail size={20} />} label="البريد الإلكتروني" value={email} />
+          <ContactRow icon={<MapPin size={20} />} label="العنوان" value={address} />
 
           <div className="rounded-2xl bg-brand-surface p-6">
             <h3 className="font-bold text-brand-primary">
               تسجيل المؤسسة الرسمي
             </h3>
             <p className="mt-2 text-sm text-brand-text-secondary">
-              مؤسسة رحلة للتنمية المجتمعية — منظمة غير هادفة للربح. سيُستكمل
-              رقم القيد الرسمي بعد توفره من وزارة التضامن الاجتماعي.
+              مؤسسة رحلة للتنمية المجتمعية — منظمة غير هادفة للربح، تعمل وفق
+              قانون الجمعيات والمؤسسات الأهلية.
             </p>
           </div>
         </div>
 
-        {/* نموذج التواصل */}
         <form className="space-y-4 rounded-2xl border border-brand-border bg-white p-6">
           <input
             type="text"
@@ -75,7 +69,7 @@ export default function ContactPage() {
           </button>
           <p className="text-center text-xs text-brand-text-secondary">
             ملاحظة: نموذج التواصل غير مفعّل فعليًا بعد، سيتم ربطه بالبريد
-            الإلكتروني الرسمي للمؤسسة عند توفره.
+            الرسمي للمؤسسة عند توفره.
           </p>
         </form>
       </div>

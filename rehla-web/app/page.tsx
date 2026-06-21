@@ -8,18 +8,20 @@ import {
   getActiveCategories,
   getFeaturedDonationItems,
 } from "@/lib/data/queries";
+import { getSiteSettings } from "@/lib/data/settings";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [categories, featuredItems] = await Promise.all([
+  const [categories, featuredItems, settings] = await Promise.all([
     getActiveCategories(),
     getFeaturedDonationItems(),
+    getSiteSettings(),
   ]);
 
   return (
     <>
-      <HomeHero />
+      <HomeHero settings={settings} />
       <TrustBar />
       <StatsStrip />
       <CategoriesGrid categories={categories} />
