@@ -1,12 +1,15 @@
 import { HomeHero } from "@/components/home/HomeHero";
+import { TrustBar } from "@/components/home/TrustBar";
 import { CategoriesGrid } from "@/components/home/CategoriesGrid";
 import { StatsStrip } from "@/components/home/StatsStrip";
+import { HowItWorks } from "@/components/home/HowItWorks";
 import { DonationItemCard } from "@/components/home/DonationItemCard";
 import {
   getActiveCategories,
   getFeaturedDonationItems,
 } from "@/lib/data/queries";
-export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
+
+export const revalidate = 60;
 
 export default async function HomePage() {
   const [categories, featuredItems] = await Promise.all([
@@ -17,8 +20,10 @@ export default async function HomePage() {
   return (
     <>
       <HomeHero />
+      <TrustBar />
       <StatsStrip />
       <CategoriesGrid categories={categories} />
+      <HowItWorks />
 
       {featuredItems.length > 0 && (
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

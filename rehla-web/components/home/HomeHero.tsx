@@ -24,18 +24,17 @@ export function HomeHero() {
 
       <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="max-w-2xl">
-          <span className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-brand-accent-light">
-            مؤسسة غير ربحية
-          </span>
-          <h1 className="mt-6 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            كل خطوة في رحلتنا
+          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+            نأخذ بيد الإنسان
             <br />
-            بداية حياة جديدة لإنسان
+            <span className="text-brand-accent-light">
+              من الاحتياج إلى القدرة
+            </span>
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-white/80">
-            نعمل عبر ستة محاور تنموية لنوفر فرصًا حقيقية في التمكين الاقتصادي،
-            التعليم، الصحة، والتدريب، ودعم دور الرعاية، انطلاقًا من إيمان واحد:
-            كل إنسان يستحق رحلة كريمة.
+          <p className="mt-6 text-lg leading-relaxed text-white/80">
+            «رحلة» لا تكتفي بالعطاء اللحظي. نعمل عبر ستة محاور تنموية متكاملة —
+            من التمكين الاقتصادي إلى الرعاية — لنرافق كل إنسان في رحلته نحو
+            الاستقلال وحياة كريمة يصنعها بنفسه.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
