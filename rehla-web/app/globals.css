@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* ============================================================
+   نظام التصميم المؤقت | رحلة للتنمية المجتمعية
+   ملاحظة: هذه الألوان مؤقتة لحين اعتماد الهوية البصرية النهائية
+   من الإدارة. كل القيم معرّفة هنا كمتغيرات واحدة لتسهيل التغيير.
+   ============================================================ */
+
+:root {
+  /* الألوان الأساسية */
+  --color-primary: #1F3A35;        /* كحلي-زيتوني غامق: الثبات والجدية */
+  --color-primary-light: #2E534C;
+  --color-primary-dark: #142724;
+
+  --color-accent: #C68A3E;         /* عسلي ذهبي مكسور: الكرم والعطاء - يُستخدم بمقدار */
+  --color-accent-light: #DCA868;
+  --color-accent-dark: #A06F2C;
+
+  /* خلفيات ونصوص */
+  --color-background: #FFFFFF;
+  --color-surface: #F7F7F5;        /* رمادي فاتح جدًا، غير كريمي */
+  --color-surface-alt: #EFEEEA;
+
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #5B6660;
+  --color-text-on-dark: #F5F4F0;
+
+  --color-border: #E3E1DC;
+
+  /* حالات */
+  --color-success: #2E7D5B;
+  --color-warning: #C68A3E;
+  --color-danger: #B14B3F;
+
+  /* الخطوط — يُستخدم متغير next/font عند توفره (بيئة الإنتاج)،
+     مع fallback للخطوط النظامية العربية أثناء التطوير المحلي */
+  --font-arabic-display: var(--font-plex-arabic, "Segoe UI"), Tahoma, Arial, sans-serif;
+  --font-arabic-body: var(--font-plex-arabic, "Segoe UI"), Tahoma, Arial, sans-serif;
+
+  /* الزوايا والمسافات */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+@theme inline {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-text-primary);
+  --font-sans: var(--font-arabic-body);
+
+  --color-brand-primary: var(--color-primary);
+  --color-brand-primary-light: var(--color-primary-light);
+  --color-brand-primary-dark: var(--color-primary-dark);
+
+  --color-brand-accent: var(--color-accent);
+  --color-brand-accent-light: var(--color-accent-light);
+  --color-brand-accent-dark: var(--color-accent-dark);
+
+  --color-brand-surface: var(--color-surface);
+  --color-brand-surface-alt: var(--color-surface-alt);
+  --color-brand-border: var(--color-border);
+  --color-brand-text-secondary: var(--color-text-secondary);
+
+  --color-brand-success: var(--color-success);
+  --color-brand-warning: var(--color-warning);
+  --color-brand-danger: var(--color-danger);
+}
+
+html {
+  direction: rtl;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-arabic-body);
+}
+
+/* تحسين قراءة الأرقام في الاتجاه العربي */
+.tabular-nums-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
