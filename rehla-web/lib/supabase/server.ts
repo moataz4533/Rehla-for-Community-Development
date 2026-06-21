@@ -4,30 +4,37 @@ import { cookies } from "next/headers";
 /**
  * يُستخدم هذا الـ client في مكونات السيرفر (Server Components)
  * لجلب البيانات بشكل آمن وسريع وقت توليد الصفحة على السيرفر.
- * هذا هو الخيار الافتراضي لمعظم صفحات القراءة (المحاور، الحالات، الأخبار).
  */
 export async function createSupabaseServerClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  // تحقق صريح من وجود متغيرات البيئة، مع رسالة واضحة في اللوج
+  // بدلاً من خطأ غامض من داخل المكتبة.
+  if (!url || !key) {
+    throw new Error(
+      `Supabase env vars missing — URL: ${url ? "موجود" : "مفقود"}, ANON_KEY: ${
+        key ? "موجود" : "مفقود"
+      }`
+    );
+  }
+
   const cookieStore = await cookies();
 
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return cookieStore.getAll();
-        },
-        setAll(cookiesToSet) {
-          try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            );
-          } catch {
-            // يحدث هذا عند استدعاء setAll من Server Component
-            // وهو متوقع ويمكن تجاهله بأمان إذا كان middleware يحدّث الجلسة
-          }
-        },
+  return createServerClient(url, key, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll();
       },
-    }
-  );
+      setAll(cookiesToSet) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          );
+        } catch {
+          // متوقع عند الاستدعاء من Server Component، يمكن تجاهله بأمان
+        }
+      },
+    },
+  });
 }
