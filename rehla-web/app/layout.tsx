@@ -18,12 +18,41 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 // وأضف `${plexArabic.variable}` لـ className تحت.
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://rehla-foundation.vercel.app"),
   title: {
-    default: "رحلة للتنمية المجتمعية",
+    default: "رحلة للتنمية المجتمعية | من الاحتياج إلى القدرة",
     template: "%s | رحلة للتنمية المجتمعية",
   },
   description:
-    "رحلة للتنمية المجتمعية — مؤسسة غير ربحية تعمل في التمكين الاقتصادي، التعليم، الصحة، التدريب، دور الرعاية، وصناديق الخير.",
+    "مؤسسة رحلة للتنمية المجتمعية — مؤسسة غير ربحية تنقل الإنسان من الاحتياج إلى القدرة عبر ستة محاور: التمكين الاقتصادي، التعليم، الصحة، التدريب، دور الرعاية، وصناديق الخير.",
+  keywords: [
+    "تبرع",
+    "مؤسسة خيرية",
+    "تنمية مجتمعية",
+    "تمكين اقتصادي",
+    "كفالة",
+    "رحلة",
+    "عمل خيري مصر",
+  ],
+  authors: [{ name: "رحلة للتنمية المجتمعية" }],
+  openGraph: {
+    type: "website",
+    locale: "ar_EG",
+    siteName: "رحلة للتنمية المجتمعية",
+    title: "رحلة للتنمية المجتمعية | من الاحتياج إلى القدرة",
+    description:
+      "مؤسسة غير ربحية تنقل الإنسان من الاحتياج إلى القدرة عبر ستة محاور تنموية متكاملة.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "رحلة للتنمية المجتمعية",
+    description:
+      "مؤسسة غير ربحية تنقل الإنسان من الاحتياج إلى القدرة عبر ستة محاور تنموية.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -33,6 +62,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className="h-full antialiased">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "NGO",
+              name: "رحلة للتنمية المجتمعية",
+              alternateName: "Rehla for Community Development",
+              url: "https://rehla-foundation.vercel.app",
+              description:
+                "مؤسسة غير ربحية تنقل الإنسان من الاحتياج إلى القدرة عبر ستة محاور تنموية متكاملة.",
+              areaServed: { "@type": "Country", name: "Egypt" },
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>

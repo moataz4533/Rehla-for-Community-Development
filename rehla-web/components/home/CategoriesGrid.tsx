@@ -9,9 +9,10 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import type { Category } from "@/lib/types/database";
+import type { SiteSettings } from "@/lib/data/settings";
+import { settingOr } from "@/lib/data/settings";
 
-// أيقونات افتراضية لكل محور حسب الـ slug، لحين ربط أيقونات مخصصة
-// من لوحة التحكم لاحقًا
+// أيقونات افتراضية لكل محور حسب الـ slug
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   "economic-empowerment": Briefcase,
   education: GraduationCap,
@@ -21,17 +22,29 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number; classN
   "charity-funds": Gift,
 };
 
-export function CategoriesGrid({ categories }: { categories: Category[] }) {
+export function CategoriesGrid({
+  categories,
+  settings,
+}: {
+  categories: Category[];
+  settings: SiteSettings;
+}) {
+  const title = settingOr(settings, "categories_title", "ستة محاور، رحلة واحدة");
+  const subtitle = settingOr(
+    settings,
+    "categories_subtitle",
+    "كل محور بوابة لتغيير حقيقي في حياة إنسان. اختر المحور الذي يلامس قلبك، وكن جزءًا من رحلته."
+  );
+
   return (
     <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
       <div className="mb-12 text-center">
         <span className="text-sm font-bold text-brand-accent">محاور العمل</span>
         <h2 className="mt-2 text-2xl font-bold text-brand-primary sm:text-3xl">
-          ستة محاور، رحلة واحدة
+          {title}
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-base text-brand-text-secondary">
-          كل محور بوابة لتغيير حقيقي في حياة إنسان. اختر المحور الذي يلامس
-          قلبك، وكن جزءًا من رحلته.
+          {subtitle}
         </p>
       </div>
 

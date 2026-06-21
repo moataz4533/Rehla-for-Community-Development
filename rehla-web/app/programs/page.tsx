@@ -1,6 +1,8 @@
 import { CategoriesGrid } from "@/components/home/CategoriesGrid";
 import { getActiveCategories } from "@/lib/data/queries";
-export const revalidate = 60; // إعادة جلب البيانات كل 60 ثانية
+import { getSiteSettings } from "@/lib/data/settings";
+
+export const revalidate = 60;
 
 export const metadata = {
   title: "محاور العمل",
@@ -9,7 +11,10 @@ export const metadata = {
 };
 
 export default async function ProgramsPage() {
-  const categories = await getActiveCategories();
+  const [categories, settings] = await Promise.all([
+    getActiveCategories(),
+    getSiteSettings(),
+  ]);
 
   return (
     <div>
@@ -24,7 +29,7 @@ export default async function ProgramsPage() {
           </p>
         </div>
       </section>
-      <CategoriesGrid categories={categories} />
+      <CategoriesGrid categories={categories} settings={settings} />
     </div>
   );
 }
