@@ -8,7 +8,7 @@ import type { NewsPost } from "@/lib/types/database";
 
 export function NewsForm({ post }: { post?: NewsPost }) {
   return (
-    <div className="mx-auto max-w-2xl p-8">
+    <div className="mx-auto max-w-2xl p-4 sm:p-8">
       <div className="mb-6">
         <Link
           href="/admin/news"

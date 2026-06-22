@@ -29,7 +29,7 @@ export default async function AdminDashboard() {
   const stats = await getStats();
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <h1 className="text-2xl font-bold text-brand-primary">لوحة التحكم</h1>
       <p className="mt-1 text-brand-text-secondary">
         نظرة عامة على محتوى الموقع

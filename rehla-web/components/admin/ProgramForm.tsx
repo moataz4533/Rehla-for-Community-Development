@@ -8,7 +8,7 @@ import type { Category } from "@/lib/types/database";
 
 export function ProgramForm({ category }: { category: Category }) {
   return (
-    <div className="mx-auto max-w-2xl p-8">
+    <div className="mx-auto max-w-2xl p-4 sm:p-8">
       <div className="mb-6">
         <Link
           href="/admin/programs"

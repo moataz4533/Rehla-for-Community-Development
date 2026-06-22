@@ -8,7 +8,7 @@ export default async function AdminProgramsPage() {
   const categories = await adminGetAllCategories();
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-brand-primary">المحاور</h1>
         <p className="mt-1 text-sm text-brand-text-secondary">

@@ -16,7 +16,7 @@ export default async function AdminLayout({
   const admin = await requireAdmin();
 
   return (
-    <div className="fixed inset-0 z-[100] flex bg-brand-surface">
+    <div className="fixed inset-0 z-[100] flex flex-col bg-brand-surface lg:flex-row">
       <AdminSidebar adminName={admin.full_name} />
       <main className="flex-1 overflow-y-auto">{children}</main>
     </div>

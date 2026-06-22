@@ -52,7 +52,7 @@ export default async function AdminDonationsPage() {
     .reduce((sum, d) => sum + Number(d.amount), 0);
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <h1 className="text-2xl font-bold text-brand-primary">التبرعات</h1>
       <p className="mt-1 text-sm text-brand-text-secondary">
         إجمالي المؤكد:{" "}
@@ -63,8 +63,8 @@ export default async function AdminDonationsPage() {
       </p>
 
       {donations.length > 0 ? (
-        <div className="mt-6 overflow-hidden rounded-2xl border border-brand-border bg-white">
-          <table className="w-full text-right text-sm">
+        <div className="mt-6 overflow-x-auto rounded-2xl border border-brand-border bg-white">
+          <table className="w-full min-w-[640px] text-right text-sm">
             <thead className="border-b border-brand-border bg-brand-surface text-brand-text-secondary">
               <tr>
                 <th className="px-5 py-3 font-medium">المتبرع</th>

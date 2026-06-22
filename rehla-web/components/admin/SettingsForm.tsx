@@ -101,7 +101,7 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
       </Section>
 
       {/* زر الحفظ ثابت في الأسفل */}
-      <div className="sticky bottom-0 -mx-8 border-t border-brand-border bg-white px-8 py-4">
+      <div className="sticky bottom-0 -mx-4 border-t border-brand-border bg-white px-4 py-4 sm:-mx-8 sm:px-8">
         <SaveButton />
       </div>
 
